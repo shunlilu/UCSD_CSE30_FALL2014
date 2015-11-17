@@ -1,0 +1,151 @@
+/*
+ * Filename: README
+ * Author: Yuchun Li
+ * Userid: cs30xlq
+ * Date: Nov. 2, 2014
+ */
+
+Description
+----------------------
+    This program can display the 2 banks( each with 32 lights). It provides the user with the file mode and interactive mode. File mode allows the user to read the commands from a file in the command line. With the interactive mode, the user can enter the command directly in the terminal. The programs provides the following functions to manipulate the light banks.
+	1. set    bank0BitPattern bank1BitPattern
+        2. clear  bank0BitPattern bank1BitPattern
+        3. toggle bank0BitPattern bank1BitPattern
+        4. shift  shiftCount
+        5. rotate rotateCount
+        6. ripple rippleCount
+
+How to compile
+----------------------
+    To compile this program, go to the directory containing the Makefile, make sure there are all the source files and headers, and then simply type ‘make’ on the terminal.
+
+How to run
+----------------------
+    To the program after the compilation has done, there are two ways to run the program.
+	1. file mode:
+	    $ ./pa2 testfile.txt
+	Note: commands are stored in the file named testfile.txt
+       
+Normal output
+----------------------
+    For this program, the normal output goes to the stdout. An example of normal output is as follows.
+
+[cs30xlq@ieng9]:pa2:546$ ./pa2
+---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
+> set 0xffffffff 1
+**** **** **** **** **** **** **** **** ---- ---- ---- ---- ---- ---- ---- ---* 
+> clear 0x0000ffff 2
+**** **** **** **** ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---* 
+> toggle 0xffff0000 2
+---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- --** 
+> quit
+
+
+Abnormal output
+----------------------
+    For this program, the abnormal output goes to the stderr. The examples of abnormal output are as follows.
+
+[cs30xlq@ieng9]:pa2:547$ ./pa2 file123.txt
+file123.txt: No such file or directory
+[cs30xlq@ieng9]:pa2:548$ ./pa2
+---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
+> set 9999999999999999999
+
+        Converting "9999999999999999999" base "0": Result too large
+> toggle 123abc
+
+        "123abc" is not an integer
+
+> set 9
+
+        A 2nd argument is required for this command.
+
+> set
+
+        Argument(s) required for this command. Type "help" for more info.
+
+> q   
+
+        Bad command. Type "help" for more info.
+
+
+Testing
+----------------------
+This program could be tested by comparing the output with the output from the sample stripped executable that was provided at ~/../public/pa2test. Since there are thousands of input combinations, thorough testing is very tough. For this reason, testing only covers the functional check. 
+
+1) File do not exist
+
+[cs30xlq@ieng9]:pa2:547$ ./pa2 file123.txt
+file123.txt: No such file or directory
+
+
+2) Arguments are too large
+
+	> set 9999999999999999999
+
+        Converting "9999999999999999999" base "0": Result too large
+
+	> clear 99 999999999999999
+
+        Converting "999999999999999" base "0": Result too large
+
+3) Arguments are not integer
+	
+	> toggle 123abc
+
+        "123abc" is not an integer
+	
+	> shift -9a
+
+        "-9a" is not an integer
+
+4) Missing arguments
+	> set
+
+        Argument(s) required for this command. Type "help" for more info.
+	
+	> clear 9
+
+        A 2nd argument is required for this command.
+
+5) Unexpected commands
+	> q   
+
+        Bad command. Type "help" for more info.
+
+6) No commands
+	
+	>
+	>
+
+7) Help sections
+	> help
+	The available commands are:
+        	set    bank0BitPattern bank1BitPattern
+        	clear  bank0BitPattern bank1BitPattern
+        	toggle bank0BitPattern bank1BitPattern
+        	shift  shiftCount
+        	rotate rotateCount
+        	ripple rippleCount
+        	help
+        	quit
+
+
+Questions
+----------------------
+
+1) In GDB how would you print a backtrace of the stack frame?
+	Type ‘backtrace’
+
+2) In GDB how would you print the assembly instructions in memory surrounding the PC?
+	Type ‘x/i $pc-4’ and ‘x/i $pc+4 
+
+3) In command mode in vim, how do you copy an entire line? How do you cut an entire line?
+	Type ‘yy’ in command mode to copy an entire line;
+	Type ‘dd’ in command mode to cut an entire line.
+4) In command mode in vim, how do you undo an edit? How do you redo an edit?
+	Type ‘u’ in command mode to undo;
+	Type ‘Ctrl-r’ in command mode to redo;
+
+5) In a linux shell, how would you list all files in your current working directory (including hidden files)?
+	Type ‘ls -a’

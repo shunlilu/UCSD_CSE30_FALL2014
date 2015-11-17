@@ -1,0 +1,260 @@
+/*
+ * Filename: README
+ * Author: Yuchun Li
+ * Userid: cs30xlq
+ * Date: Nov. 26, 2014
+ */
+
+Description
+----------------------
+    This program will read numbers from the command line/file and print them back in several formats (including plain English or any base from 2-36), as specified on the command line/file.
+
+How to compile
+----------------------
+    To compile this program, go to the directory containing the Makefile, make sure there are all the source files and headers, and then simply type ‘make’ on the terminal.
+
+How to run
+----------------------
+    To the program after the compilation has done, there are two ways to run the program.
+	1. Command line mode:
+	    $ ./pa3 -e -o 2,8 1234 674
+	2. file mode:
+	    $ ./pa3 -e -o 2,8 -f testfile
+	Note: numbers are stored in the file named testfile
+       
+Normal output
+----------------------
+    For this program, the normal output goes to the stdout. An example of normal output is as follows.
+
+[cs30xlq@ieng9]:pa3:512$ ./pa3 -e -o 2,8,10,16 235
+
+235
+two three five 
+0000 0000 0000 0000 0000 0000 1110 1011 
+0353
+235
+0xEB
+
+
+Abnormal output
+----------------------
+    For this program, the abnormal output goes to the stderr. The examples of abnormal output are as follows.
+
+[cs30xlq@ieng9]:pa3:513$ ./pa3 -e -i 5,6 -o 2,8,10,16 235
+        5,6 (input base) is not an integer.
+Usage: ./pa3 [-ebh] [-i input_base] [-o output_base(s)] -f input_file | numbers
+        -e -- print number in english
+        -b -- print floating point number (if floating point) in binary
+        -h -- this help/usage message
+
+
+Testing
+----------------------
+This program could be tested by comparing the output with the output from the sample stripped executable that was provided at ~/../public/pa3test. Since there are thousands of input combinations, thoroughly testing is very tough. For this reason, testing only covers the functional check. 
+
+1) File do not exist
+
+[cs30xlq@ieng9]:pa3:514$ ./pa3 -e -o 2,8,10,16 -f test1 
+test1: No such file or directory
+
+
+2) Numbers are too large
+
+[cs30xlq@ieng9]:pa3:517$ ./pa3 -e -o 2,8,10,16 999999999999999999999999999999
+
+999999999999999999999999999999
+999999999999999999999999999999: Result too large
+
+3) Invalid numbers
+	
+[cs30xlq@ieng9]:pa3:518$ ./pa3 -e -o 2,8,10,16 123ab                         
+
+123ab
+        123ab is not a valid integer in base 10.
+
+
+[cs30xlq@ieng9]:pa3:550$ ./pa3 -eb -o 10 12.34a
+
+12.34a
+        12.34a is not a valid floating point number.
+
+
+4) Missing numbers
+
+[cs30xlq@ieng9]:pa3:541$ ./pa3 -e -o 2,8,10,16
+        Must specify numbers using either -f input_file or numbers on the command line
+Usage: ./pa3 [-ebh] [-i input_base] [-o output_base(s)] -f input_file | numbers
+        -e -- print number in english
+        -b -- print floating point number (if floating point) in binary
+        -h -- this help/usage message
+
+5) Not specifying options
+
+[cs30xlq@ieng9]:pa3:542$ ./pa3                
+        Must specify numbers using either -f input_file or numbers on the command line
+Usage: ./pa3 [-ebh] [-i input_base] [-o output_base(s)] -f input_file | numbers
+        -e -- print number in english
+        -b -- print floating point number (if floating point) in binary
+        -h -- this help/usage message
+
+6) Unexpected options
+
+[cs30xlq@ieng9]:pa3:544$ ./pa3 -e -k 2,8,10,16
+./pa3: illegal option -- k
+Usage: ./pa3 [-ebh] [-i input_base] [-o output_base(s)] -f input_file | numbers
+        -e -- print number in english
+        -b -- print floating point number (if floating point) in binary
+        -h -- this help/usage message
+
+[cs30xlq@ieng9]:pa3:549$ ./pa3 -eb -i 2,4 -o 10 1234
+        2,4 (input base) is not an integer.
+Usage: ./pa3 [-ebh] [-i input_base] [-o output_base(s)] -f input_file | numbers
+        -e -- print number in english
+        -b -- print floating point number (if floating point) in binary
+        -h -- this help/usage message
+
+
+7) Print Usage
+
+[cs30xlq@ieng9]:pa3:548$ ./pa3 -h               
+Usage: ./pa3 [-ebh] [-i input_base] [-o output_base(s)] -f input_file | numbers
+        -e -- print number in english
+        -b -- print floating point number (if floating point) in binary
+        -h -- this help/usage message
+
+8) Print English
+
+[cs30xlq@ieng9]:pa3:551$ ./pa3 -e 932 932.01 -932 -932.01
+
+932
+nine three two 
+
+932.01
+nine three two dot zero one 
+
+-932
+minus nine three two 
+
+-932.01
+minus nine three two dot zero one 
+
+9) Print Output Base(s)
+
+[cs30xlq@ieng9]:pa3:552$ ./pa3 -o 2,8,10,16,32 2349 -234 
+
+2349
+0000 0000 0000 0000 0000 1001 0010 1101 
+04455
+2349
+0x92D
+29D
+
+-234
+1111 1111 1111 1111 1111 1111 0001 0110 
+-0352
+-234
+-0xEA
+-7A
+
+10) Specifying input base
+
+[cs30xlq@ieng9]:pa3:553$ ./pa3 -i 16 -o 2,8,10,16,32 2349 -234
+
+2349
+0000 0000 0000 0000 0010 0011 0100 1001 
+021511
+9033
+0x2349
+8Q9
+
+-234
+1111 1111 1111 1111 1111 1101 1100 1100 
+-01064
+-564
+-0x234
+-HK
+
+11) Read from file and from command line at the same time
+
+[cs30xlq@ieng9]:pa3:556$ ./pa3 -f testfile 123                                 
+        Only one of -f input_file or numbers on the command line
+Usage: ./pa3 [-ebh] [-i input_base] [-o output_base(s)] -f input_file | numbers
+        -e -- print number in english
+        -b -- print floating point number (if floating point) in binary
+        -h -- this help/usage message
+
+12) Reading numbers from file
+
+[cs30xlq@ieng9]:pa3:516$ ./pa3 -e -o 2,8,10,16 -f test
+
+234
+two three four 
+0000 0000 0000 0000 0000 0000 1110 1010 
+0352
+234
+0xEA
+
+0.5643
+zero dot five six four three 
+
+-123
+minus one two three 
+1111 1111 1111 1111 1111 1111 1000 0101 
+-0173
+-123
+-0x7B
+
+-23.0045
+minus two three dot zero zero four five
+
+13) Several inputs and flags
+
+[cs30xlq@ieng9]:pa3:558$ ./pa3 -eb -i 8 -o 2,8,10,16 421 -342.04 -1.5 0.02 3.1.4 123xye
+
+421
+two seven three 
+0000 0000 0000 0000 0000 0001 0001 0001 
+0421
+273
+0x111
+
+-342.04
+minus three four two dot zero four 
+1 10000111 01010110000010100011111
+
+-1.5
+minus one dot five 
+1 01111111 10000000000000000000000
+
+0.02
+zero dot zero two 
+0 01111001 01000111101011100001010
+
+3.1.4
+        3.1.4 is not a valid floating point number.
+
+123xye
+        123xye is not a valid integer in base 8.
+
+
+Questions
+----------------------
+
+1) What key combination can you use to terminate a running program?
+	Ctrl + c
+
+2) What key combination can you use to suspend a running program? What's the difference between terminating and suspending a program?
+	Ctrl + z. Terminating a program means that the program is already killed and cannot be resumed; While, suspending a program temporarily stops the program, and the user can be resumed.
+
+3) What key combination can you use to stop transfer to current terminal? How do you resume transfer to current terminal? (This is useful when your terminal stops responding!)
+	Ctrl + s; Ctrl + q
+
+4) Let's say you just ran the following command (don't worry too much about what it's doing):
+
+        cs30xyz$ grep August BoringReports.txt | sed -e 's/August[ \t]*//' > August_BoringReports.txt
+ 
+Without retyping or using the arrow keys, how could you quickly run the same command again with all instances of "August" replaced with "September"?
+	!!:gs/August/September
+
+5) Say you are editing a file in vim. You have a variable named foo in your code, but you don't like the name foo anymore and you want to replace all variables named foo with bar. How can you do this from Command Mode in vim? [Note: There may be multiple ways to do this.]
+	:/%s/foo/bar/g

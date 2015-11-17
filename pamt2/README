@@ -1,0 +1,192 @@
+/*
+ * Filename: README
+ * Author: Yuchun Li
+ * Userid: cs30xlq
+ * Date: Nov. 27, 2014
+ */
+
+Description
+----------------------
+    This simple program will determine if a number is prime or not, both in parallel over many threads simultaneously, and sequentially in one. In addition, this program records the execution time for both methods and compares the relative performance of each.
+ 
+
+How to compile
+----------------------
+    To compile this program, go to the directory containing the Makefile, make sure there are all the source files and headers, and then simply type ‘make’ on the terminal.
+
+How to run
+----------------------
+    After the compilation has done, follow the below format to run the program.
+	./isPrime num1 [num2 num3 . . .]
+    
+    For example:
+	$ ./isPrime 426110284379068257
+
+       
+Normal output
+----------------------
+    For this program, the normal output goes to the stdout. An example of normal output is as follows.
+
+[cs30xlq@ieng6-242]:pamt2:233$ ./isPrime 790738119649411319
+Number of threads = 4
+
+Sequential isPrime for 790738119649411319
+790738119649411319 is prime
+Completed in 14.7842 sec
+
+Async-get parallel isPrime for 790738119649411319
+790738119649411319 is prime
+Completed in 5.48678 sec
+
+Speed-up: 2.69452
+
+
+Abnormal output
+----------------------
+    For this program, the abnormal output goes to the stderr. The examples of abnormal output are as follows.
+
+[cs30xlq@ieng6-242]:pamt2:236$ ./isPrime
+Usage: ./isPrime num1 [num2 num3 ...]
+
+Testing
+----------------------
+This program could be tested by comparing the output with the example output given on the course webpage. The isPrime functionality could be tested by given small prime number and composite number.
+
+1) isPrime functionality
+
+[cs30xlq@ieng6-242]:pamt2:256$ ./isPrime 2
+Number of threads = 4
+
+Sequential isPrime for 2
+2 is prime
+Completed in 0 sec
+
+Async-get parallel isPrime for 2
+2 is prime
+Completed in 0.001027 sec
+
+Speed-up: 0
+
+
+[cs30xlq@ieng6-242]:pamt2:253$ ./isPrime 11
+Number of threads = 4
+
+Sequential isPrime for 11
+11 is prime
+Completed in 4e-06 sec
+
+Async-get parallel isPrime for 11
+11 is prime
+Completed in 0.001128 sec
+
+Speed-up: 0.0035461
+
+
+[cs30xlq@ieng6-242]:pamt2:258$ ./isPrime 18
+Number of threads = 4
+
+Sequential isPrime for 18
+18 is not prime
+Completed in 0 sec
+
+Async-get parallel isPrime for 18
+18 is not prime
+Completed in 0.000986 sec
+
+Speed-up: 0
+ lyc0730
+
+
+2) Multithreading 
+
+[cs30xlq@ieng6-242]:pamt2:259$ ./isPrime 790738119649411319
+Number of threads = 4
+
+Sequential isPrime for 790738119649411319
+790738119649411319 is prime
+Completed in 14.8996 sec
+
+Async-get parallel isPrime for 790738119649411319
+790738119649411319 is prime
+Completed in 5.56222 sec
+
+Speed-up: 2.67871
+
+
+[cs30xlq@ieng6-242]:pamt2:262$ ./isPrime 489133282872437277
+Number of threads = 4
+
+Sequential isPrime for 489133282872437277
+489133282872437277 is not prime
+Completed in 2e-06 sec
+
+Async-get parallel isPrime for 489133282872437277
+489133282872437277 is not prime
+Completed in 2.77649 sec
+
+Speed-up: 7.20335e-07
+
+
+
+Questions
+----------------------
+
+1. Try running isPrime on the very large prime number 426110284379068259. You should see that the sequential version takes much longer than the parallel version. What results do you see when you run isPrime on the nearby composite number 426110284379068249?
+
+[cs30xlq@ieng6-242]:pamt2:266$ ./isPrime 426110284379068259
+Number of threads = 4
+
+Sequential isPrime for 426110284379068259
+426110284379068259 is prime
+Completed in 10.5965 sec
+
+Async-get parallel isPrime for 426110284379068259
+426110284379068259 is prime
+Completed in 3.5488 sec
+
+Speed-up: 2.98593
+
+--------------
+
+
+[cs30xlq@ieng6-242]:pamt2:264$ ./isPrime 426110284379068249
+Number of threads = 4
+
+Sequential isPrime for 426110284379068249
+426110284379068249 is not prime
+Completed in 10.642 sec
+
+Async-get parallel isPrime for 426110284379068249
+426110284379068249 is not prime
+Completed in 3.77403 sec
+
+Speed-up: 2.8198
+
+--------------
+
+
+2. How do you explain the results from the previous question? (It may be useful to know that 426110284379068249 = 653,947,933 * 651,596,653 and that the square root of 426110284379068249 = 652,771,234).
+
+As we can see, the calculation time for both numbers are almost the same. This is because we are checking the possible factors up to the square of the number. Also, the factors of 426110284379068249 are two prime number, which are around the square root. Thus, that is why it takes such long time to find out it is not a prime number.
+
+3. Now try running isPrime on another nearby composite 426110284379068257. What results do you see this time?
+
+[cs30xlq@ieng6-242]:pamt2:265$ ./isPrime 426110284379068257
+Number of threads = 4
+
+Sequential isPrime for 426110284379068257
+426110284379068257 is not prime
+Completed in 0.000173 sec
+
+Async-get parallel isPrime for 426110284379068257
+426110284379068257 is not prime
+Completed in 2.89904 sec
+
+Speed-up: 5.96748e-05
+
+--------------
+
+
+4. How do you explain those results? (It may be useful to know that 426110284379068257 = 3 * 47 * 3022058754461477).
+
+As we can see, the calculation time in sequential are very small. This is because one of the factors of 426110284379068257 is 3, and the isPrime function can determine it is not a prime number at the very beginning.

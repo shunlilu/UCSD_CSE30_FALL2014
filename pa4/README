@@ -1,0 +1,437 @@
+/*
+ * Filename: README
+ * Author: Yuchun Li
+ * Userid: cs30xlq
+ * Date: Dec. 10, 2014
+ */
+
+Description
+----------------------
+    This program is simple version of ls utility with a small subset of ls options(-a, -l, -S, -r, -F, -R). This program supports with any combination of files and directories, and the directories are searched recursively. 
+
+How to compile
+----------------------
+    To compile this program, go to the directory containing the Makefile, make sure there are all the source files and headers, and then simply type ‘make’ on the terminal.
+
+How to run
+----------------------
+    To the program after the compilation has done, there are two ways to run the program.
+	1. Current directory:
+	    $ ./myls [-alSrBFR]
+	2. Other directories:
+	    $ ./myls [-alSrBFR] directory1 [directory2 ...]
+       
+Normal output
+----------------------
+    For this program, the normal output goes to the stdout. An example of normal output is as follows.
+
+[cs30xlq@ieng9]:pa4:752$ ./myls ../debug1
+../debug1:
+Makefile
+README
+debug.h
+findEnd.s
+main.c
+reverse.s
+swapChars.s
+
+
+Abnormal output
+----------------------
+    For this program, the abnormal output goes to the stderr. The examples of abnormal output are as follows.
+
+[cs30xlq@ieng9]:pa4:754$ ./myls -t 123
+./myls: illegal option -- t
+Usage: ./myls [-alrSBFR] [file ...]
+
+
+Testing
+----------------------
+This program could be tested by comparing the output with the output from the sample stripped executable that was provided at ~/../public/pa3test. Since there are thousands of input combinations, thoroughly testing is very tough. For this reason, testing only covers the functional check. 
+
+1) -a option
+
+[cs30xlq@ieng9]:pa4:758$ ./myls -a ../debug1
+../debug1:
+.
+..
+Makefile
+README
+debug.h
+findEnd.s
+main.c
+reverse.s
+swapChars.s
+
+2) -l option
+
+[cs30xlq@ieng9]:pa4:759$ ./myls -l ../debug1
+../debug1:
+-rw-r-----   1 cs30xlq  cs30x       1373 Nov  9 16:33 Makefile
+-rw-r--r--   1 cs30xlq  cs30x       1498 Nov  9 23:57 README
+-rw-r-----   1 cs30xlq  cs30x         76 Nov  9 16:33 debug.h
+-rw-r-----   1 cs30xlq  cs30x       1390 Nov  9 22:23 findEnd.s
+-rw-r-----   1 cs30xlq  cs30x       1611 Nov  9 23:03 main.c
+-rw-r-----   1 cs30xlq  cs30x       1943 Nov  9 22:35 reverse.s
+-rw-r-----   1 cs30xlq  cs30x       1466 Nov  9 22:56 swapChars.s
+
+
+3) -r option
+	
+[cs30xlq@ieng9]:pa4:761$ ./myls -l -r ../debug1
+../debug1:
+-rw-r-----   1 cs30xlq  cs30x       1466 Nov  9 22:56 swapChars.s
+-rw-r-----   1 cs30xlq  cs30x       1943 Nov  9 22:35 reverse.s
+-rw-r-----   1 cs30xlq  cs30x       1611 Nov  9 23:03 main.c
+-rw-r-----   1 cs30xlq  cs30x       1390 Nov  9 22:23 findEnd.s
+-rw-r-----   1 cs30xlq  cs30x         76 Nov  9 16:33 debug.h
+-rw-r--r--   1 cs30xlq  cs30x       1498 Nov  9 23:57 README
+-rw-r-----   1 cs30xlq  cs30x       1373 Nov  9 16:33 Makefile
+
+
+
+4) -S option
+[cs30xlq@ieng9]:pa4:762$ ./myls -l -S ../debug1
+../debug1:
+-rw-r-----   1 cs30xlq  cs30x       1943 Nov  9 22:35 reverse.s
+-rw-r-----   1 cs30xlq  cs30x       1611 Nov  9 23:03 main.c
+-rw-r--r--   1 cs30xlq  cs30x       1498 Nov  9 23:57 README
+-rw-r-----   1 cs30xlq  cs30x       1466 Nov  9 22:56 swapChars.s
+-rw-r-----   1 cs30xlq  cs30x       1390 Nov  9 22:23 findEnd.s
+-rw-r-----   1 cs30xlq  cs30x       1373 Nov  9 16:33 Makefile
+-rw-r-----   1 cs30xlq  cs30x         76 Nov  9 16:33 debug.h
+
+
+5) Multiple options
+
+[cs30xlq@ieng9]:pa4:764$ ./myls -l -r -S ../debug1
+../debug1:
+-rw-r-----   1 cs30xlq  cs30x         76 Nov  9 16:33 debug.h
+-rw-r-----   1 cs30xlq  cs30x       1373 Nov  9 16:33 Makefile
+-rw-r-----   1 cs30xlq  cs30x       1390 Nov  9 22:23 findEnd.s
+-rw-r-----   1 cs30xlq  cs30x       1466 Nov  9 22:56 swapChars.s
+-rw-r--r--   1 cs30xlq  cs30x       1498 Nov  9 23:57 README
+-rw-r-----   1 cs30xlq  cs30x       1611 Nov  9 23:03 main.c
+-rw-r-----   1 cs30xlq  cs30x       1943 Nov  9 22:35 reverse.s
+
+6) Link files
+
+[cs30xlq@ieng9]:pa4:766$ ./myls -l /home/solaris/ieng9/cs30x/public/links
+/home/solaris/ieng9/cs30x/public/links:
+lrwxrwxrwx   1 cs30x3   cs30x          9 Mar 11  2004 brokenlink
+drwxr-xr-x   2 cs30x3   cs30x       4096 Mar 11  2004 dirTarget
+lrwxrwxrwx   1 cs30x3   cs30x          7 Mar 11  2004 linkTo1
+lrwxrwxrwx   1 cs30x3   cs30x          7 Mar 11  2004 linkTo2
+lrwxrwxrwx   1 cs30x3   cs30x          9 Mar 11  2004 linkToDir
+lrwxrwxrwx   1 cs30x3   cs30x          7 Mar 11  2004 otherlinkTo1
+-rwxr-xr--   1 cs30x3   cs30x          0 Mar 11  2004 target1
+-rw-r--r--   1 cs30x3   cs30x          0 Mar 11  2004 target2
+
+with -F option:
+
+[cs30xlq@ieng9]:pa4:774$ ./myls -F /home/solaris/ieng9/cs30x/public/links
+/home/solaris/ieng9/cs30x/public/links:
+brokenlink@
+dirTarget/
+linkTo1@
+linkTo2@
+linkToDir@
+otherlinkTo1@
+target1*
+target2*
+
+with -l -F option:
+
+[cs30xlq@ieng9]:pa4:768$ ./myls -l -F /home/solaris/ieng9/cs30x/public/sample_link
+lrwxrwxrwx   1 nobody   root          11 Mar  1  2001 /home/solaris/ieng9/cs30x/public/sample_link -> link_target
+
+
+7) Unreadable Directory
+
+[cs30xlq@ieng9]:pa4:775$ ./myls /home/solaris/ieng9/cs30x/public/sample_dir
+/home/solaris/ieng9/cs30x/public/sample_dir:
+opendir --/home/solaris/ieng9/cs30x/public/sample_dir: Permission denied
+
+
+8) File without mapped group or owner
+
+[cs30xlq@ieng9]:pa4:777$ ./myls -l /home/solaris/ieng9/cs30x/public/sample_file
+-rw-r-----   1 cs30x    420            0 Mar  1  2002 /home/solaris/ieng9/cs30x/public/sample_file
+
+
+[cs30xlq@ieng9]:pa4:778$ ./myls -l /home/solaris/ieng9/cs30x/public/sample_file2
+-rw-r-----   1 420      cs30x          0 Nov 18  2013 /home/solaris/ieng9/cs30x/public/sample_file2
+
+
+9) File without permissions
+
+[cs30xlq@ieng9]:pa4:779$ ./myls -l /home/solaris/ieng9/cs30x/public/noPermissions
+----------   1 cs30x    cs30x          0 May 27  2003 /home/solaris/ieng9/cs30x/public/noPermissions
+
+
+
+10) Character Special Devices, and some Major and Minor Device Numbers:
+
+[cs30xlq@ieng9]:pa4:780$ ./myls -l /dev/fd                                    
+/dev/fd:
+crw-rw-rw-   1 root     root     601   0 Dec 10 20:03 0
+crw-rw-rw-   1 root     root     601   1 Dec 10 20:03 1
+crw-rw-rw-   1 root     root     601  10 Dec 10 20:03 10
+crw-rw-rw-   1 root     root     601 100 Dec 10 20:03 100
+crw-rw-rw-   1 root     root     601 101 Dec 10 20:03 101
+crw-rw-rw-   1 root     root     601 102 Dec 10 20:03 102
+crw-rw-rw-   1 root     root     601 103 Dec 10 20:03 103
+crw-rw-rw-   1 root     root     601 104 Dec 10 20:03 104
+crw-rw-rw-   1 root     root     601 105 Dec 10 20:03 105
+crw-rw-rw-   1 root     root     601 106 Dec 10 20:03 106
+crw-rw-rw-   1 root     root     601 107 Dec 10 20:03 107
+crw-rw-rw-   1 root     root     601 108 Dec 10 20:03 108
+crw-rw-rw-   1 root     root     601 109 Dec 10 20:03 109
+crw-rw-rw-   1 root     root     601  11 Dec 10 20:03 11
+crw-rw-rw-   1 root     root     601 110 Dec 10 20:03 110
+crw-rw-rw-   1 root     root     601 111 Dec 10 20:03 111
+crw-rw-rw-   1 root     root     601 112 Dec 10 20:03 112
+crw-rw-rw-   1 root     root     601 113 Dec 10 20:03 113
+crw-rw-rw-   1 root     root     601 114 Dec 10 20:03 114
+crw-rw-rw-   1 root     root     601 115 Dec 10 20:03 115
+crw-rw-rw-   1 root     root     601 116 Dec 10 20:03 116
+crw-rw-rw-   1 root     root     601 117 Dec 10 20:03 117
+crw-rw-rw-   1 root     root     601 118 Dec 10 20:03 118
+crw-rw-rw-   1 root     root     601 119 Dec 10 20:03 119
+crw-rw-rw-   1 root     root     601  12 Dec 10 20:03 12
+crw-rw-rw-   1 root     root     601 120 Dec 10 20:03 120
+crw-rw-rw-   1 root     root     601 121 Dec 10 20:03 121
+crw-rw-rw-   1 root     root     601 122 Dec 10 20:03 122
+crw-rw-rw-   1 root     root     601 123 Dec 10 20:03 123
+crw-rw-rw-   1 root     root     601 124 Dec 10 20:03 124
+crw-rw-rw-   1 root     root     601 125 Dec 10 20:03 125
+crw-rw-rw-   1 root     root     601 126 Dec 10 20:03 126
+crw-rw-rw-   1 root     root     601 127 Dec 10 20:03 127
+crw-rw-rw-   1 root     root     601 128 Dec 10 20:03 128
+crw-rw-rw-   1 root     root     601 129 Dec 10 20:03 129
+crw-rw-rw-   1 root     root     601  13 Dec 10 20:03 13
+crw-rw-rw-   1 root     root     601 130 Dec 10 20:03 130
+crw-rw-rw-   1 root     root     601 131 Dec 10 20:03 131
+crw-rw-rw-   1 root     root     601 132 Dec 10 20:03 132
+crw-rw-rw-   1 root     root     601 133 Dec 10 20:03 133
+crw-rw-rw-   1 root     root     601 134 Dec 10 20:03 134
+crw-rw-rw-   1 root     root     601 135 Dec 10 20:03 135
+crw-rw-rw-   1 root     root     601 136 Dec 10 20:03 136
+crw-rw-rw-   1 root     root     601 137 Dec 10 20:03 137
+crw-rw-rw-   1 root     root     601 138 Dec 10 20:03 138
+crw-rw-rw-   1 root     root     601 139 Dec 10 20:03 139
+crw-rw-rw-   1 root     root     601  14 Dec 10 20:03 14
+crw-rw-rw-   1 root     root     601 140 Dec 10 20:03 140
+crw-rw-rw-   1 root     root     601 141 Dec 10 20:03 141
+crw-rw-rw-   1 root     root     601 142 Dec 10 20:03 142
+crw-rw-rw-   1 root     root     601 143 Dec 10 20:03 143
+crw-rw-rw-   1 root     root     601 144 Dec 10 20:03 144
+crw-rw-rw-   1 root     root     601 145 Dec 10 20:03 145
+crw-rw-rw-   1 root     root     601 146 Dec 10 20:03 146
+crw-rw-rw-   1 root     root     601 147 Dec 10 20:03 147
+crw-rw-rw-   1 root     root     601 148 Dec 10 20:03 148
+crw-rw-rw-   1 root     root     601 149 Dec 10 20:03 149
+crw-rw-rw-   1 root     root     601  15 Dec 10 20:03 15
+crw-rw-rw-   1 root     root     601 150 Dec 10 20:03 150
+crw-rw-rw-   1 root     root     601 151 Dec 10 20:03 151
+crw-rw-rw-   1 root     root     601 152 Dec 10 20:03 152
+crw-rw-rw-   1 root     root     601 153 Dec 10 20:03 153
+crw-rw-rw-   1 root     root     601 154 Dec 10 20:03 154
+crw-rw-rw-   1 root     root     601 155 Dec 10 20:03 155
+crw-rw-rw-   1 root     root     601 156 Dec 10 20:03 156
+crw-rw-rw-   1 root     root     601 157 Dec 10 20:03 157
+crw-rw-rw-   1 root     root     601 158 Dec 10 20:03 158
+crw-rw-rw-   1 root     root     601 159 Dec 10 20:03 159
+crw-rw-rw-   1 root     root     601  16 Dec 10 20:03 16
+crw-rw-rw-   1 root     root     601 160 Dec 10 20:03 160
+crw-rw-rw-   1 root     root     601 161 Dec 10 20:03 161
+crw-rw-rw-   1 root     root     601 162 Dec 10 20:03 162
+crw-rw-rw-   1 root     root     601 163 Dec 10 20:03 163
+crw-rw-rw-   1 root     root     601 164 Dec 10 20:03 164
+crw-rw-rw-   1 root     root     601 165 Dec 10 20:03 165
+crw-rw-rw-   1 root     root     601 166 Dec 10 20:03 166
+crw-rw-rw-   1 root     root     601 167 Dec 10 20:03 167
+crw-rw-rw-   1 root     root     601 168 Dec 10 20:03 168
+crw-rw-rw-   1 root     root     601 169 Dec 10 20:03 169
+crw-rw-rw-   1 root     root     601  17 Dec 10 20:03 17
+crw-rw-rw-   1 root     root     601 170 Dec 10 20:03 170
+crw-rw-rw-   1 root     root     601 171 Dec 10 20:03 171
+crw-rw-rw-   1 root     root     601 172 Dec 10 20:03 172
+crw-rw-rw-   1 root     root     601 173 Dec 10 20:03 173
+crw-rw-rw-   1 root     root     601 174 Dec 10 20:03 174
+crw-rw-rw-   1 root     root     601 175 Dec 10 20:03 175
+crw-rw-rw-   1 root     root     601 176 Dec 10 20:03 176
+crw-rw-rw-   1 root     root     601 177 Dec 10 20:03 177
+crw-rw-rw-   1 root     root     601 178 Dec 10 20:03 178
+crw-rw-rw-   1 root     root     601 179 Dec 10 20:03 179
+crw-rw-rw-   1 root     root     601  18 Dec 10 20:03 18
+crw-rw-rw-   1 root     root     601 180 Dec 10 20:03 180
+crw-rw-rw-   1 root     root     601 181 Dec 10 20:03 181
+crw-rw-rw-   1 root     root     601 182 Dec 10 20:03 182
+crw-rw-rw-   1 root     root     601 183 Dec 10 20:03 183
+crw-rw-rw-   1 root     root     601 184 Dec 10 20:03 184
+crw-rw-rw-   1 root     root     601 185 Dec 10 20:03 185
+crw-rw-rw-   1 root     root     601 186 Dec 10 20:03 186
+crw-rw-rw-   1 root     root     601 187 Dec 10 20:03 187
+crw-rw-rw-   1 root     root     601 188 Dec 10 20:03 188
+crw-rw-rw-   1 root     root     601 189 Dec 10 20:03 189
+crw-rw-rw-   1 root     root     601  19 Dec 10 20:03 19
+crw-rw-rw-   1 root     root     601 190 Dec 10 20:03 190
+crw-rw-rw-   1 root     root     601 191 Dec 10 20:03 191
+crw-rw-rw-   1 root     root     601 192 Dec 10 20:03 192
+crw-rw-rw-   1 root     root     601 193 Dec 10 20:03 193
+crw-rw-rw-   1 root     root     601 194 Dec 10 20:03 194
+crw-rw-rw-   1 root     root     601 195 Dec 10 20:03 195
+crw-rw-rw-   1 root     root     601 196 Dec 10 20:03 196
+crw-rw-rw-   1 root     root     601 197 Dec 10 20:03 197
+crw-rw-rw-   1 root     root     601 198 Dec 10 20:03 198
+crw-rw-rw-   1 root     root     601 199 Dec 10 20:03 199
+crw-rw-rw-   1 root     root     601   2 Dec 10 20:03 2
+crw-rw-rw-   1 root     root     601  20 Dec 10 20:03 20
+crw-rw-rw-   1 root     root     601 200 Dec 10 20:03 200
+crw-rw-rw-   1 root     root     601 201 Dec 10 20:03 201
+crw-rw-rw-   1 root     root     601 202 Dec 10 20:03 202
+crw-rw-rw-   1 root     root     601 203 Dec 10 20:03 203
+crw-rw-rw-   1 root     root     601 204 Dec 10 20:03 204
+crw-rw-rw-   1 root     root     601 205 Dec 10 20:03 205
+crw-rw-rw-   1 root     root     601 206 Dec 10 20:03 206
+crw-rw-rw-   1 root     root     601 207 Dec 10 20:03 207
+crw-rw-rw-   1 root     root     601 208 Dec 10 20:03 208
+crw-rw-rw-   1 root     root     601 209 Dec 10 20:03 209
+crw-rw-rw-   1 root     root     601  21 Dec 10 20:03 21
+crw-rw-rw-   1 root     root     601 210 Dec 10 20:03 210
+crw-rw-rw-   1 root     root     601 211 Dec 10 20:03 211
+crw-rw-rw-   1 root     root     601 212 Dec 10 20:03 212
+crw-rw-rw-   1 root     root     601 213 Dec 10 20:03 213
+crw-rw-rw-   1 root     root     601 214 Dec 10 20:03 214
+crw-rw-rw-   1 root     root     601 215 Dec 10 20:03 215
+crw-rw-rw-   1 root     root     601 216 Dec 10 20:03 216
+crw-rw-rw-   1 root     root     601 217 Dec 10 20:03 217
+crw-rw-rw-   1 root     root     601 218 Dec 10 20:03 218
+crw-rw-rw-   1 root     root     601 219 Dec 10 20:03 219
+crw-rw-rw-   1 root     root     601  22 Dec 10 20:03 22
+crw-rw-rw-   1 root     root     601 220 Dec 10 20:03 220
+crw-rw-rw-   1 root     root     601 221 Dec 10 20:03 221
+crw-rw-rw-   1 root     root     601 222 Dec 10 20:03 222
+crw-rw-rw-   1 root     root     601 223 Dec 10 20:03 223
+crw-rw-rw-   1 root     root     601 224 Dec 10 20:03 224
+crw-rw-rw-   1 root     root     601 225 Dec 10 20:03 225
+crw-rw-rw-   1 root     root     601 226 Dec 10 20:03 226
+crw-rw-rw-   1 root     root     601 227 Dec 10 20:03 227
+crw-rw-rw-   1 root     root     601 228 Dec 10 20:03 228
+crw-rw-rw-   1 root     root     601 229 Dec 10 20:03 229
+crw-rw-rw-   1 root     root     601  23 Dec 10 20:03 23
+crw-rw-rw-   1 root     root     601 230 Dec 10 20:03 230
+crw-rw-rw-   1 root     root     601 231 Dec 10 20:03 231
+crw-rw-rw-   1 root     root     601 232 Dec 10 20:03 232
+crw-rw-rw-   1 root     root     601 233 Dec 10 20:03 233
+crw-rw-rw-   1 root     root     601 234 Dec 10 20:03 234
+crw-rw-rw-   1 root     root     601 235 Dec 10 20:03 235
+crw-rw-rw-   1 root     root     601 236 Dec 10 20:03 236
+crw-rw-rw-   1 root     root     601 237 Dec 10 20:03 237
+crw-rw-rw-   1 root     root     601 238 Dec 10 20:03 238
+crw-rw-rw-   1 root     root     601 239 Dec 10 20:03 239
+crw-rw-rw-   1 root     root     601  24 Dec 10 20:03 24
+crw-rw-rw-   1 root     root     601 240 Dec 10 20:03 240
+crw-rw-rw-   1 root     root     601 241 Dec 10 20:03 241
+crw-rw-rw-   1 root     root     601 242 Dec 10 20:03 242
+crw-rw-rw-   1 root     root     601 243 Dec 10 20:03 243
+crw-rw-rw-   1 root     root     601 244 Dec 10 20:03 244
+crw-rw-rw-   1 root     root     601 245 Dec 10 20:03 245
+crw-rw-rw-   1 root     root     601 246 Dec 10 20:03 246
+crw-rw-rw-   1 root     root     601 247 Dec 10 20:03 247
+crw-rw-rw-   1 root     root     601 248 Dec 10 20:03 248
+crw-rw-rw-   1 root     root     601 249 Dec 10 20:03 249
+crw-rw-rw-   1 root     root     601  25 Dec 10 20:03 25
+crw-rw-rw-   1 root     root     601 250 Dec 10 20:03 250
+crw-rw-rw-   1 root     root     601 251 Dec 10 20:03 251
+crw-rw-rw-   1 root     root     601 252 Dec 10 20:03 252
+crw-rw-rw-   1 root     root     601 253 Dec 10 20:03 253
+crw-rw-rw-   1 root     root     601 254 Dec 10 20:03 254
+crw-rw-rw-   1 root     root     601 255 Dec 10 20:03 255
+crw-rw-rw-   1 root     root     601  26 Dec 10 20:03 26
+crw-rw-rw-   1 root     root     601  27 Dec 10 20:03 27
+crw-rw-rw-   1 root     root     601  28 Dec 10 20:03 28
+crw-rw-rw-   1 root     root     601  29 Dec 10 20:03 29
+crw-rw-rw-   1 root     root     601   3 Dec 10 20:03 3
+crw-rw-rw-   1 root     root     601  30 Dec 10 20:03 30
+crw-rw-rw-   1 root     root     601  31 Dec 10 20:03 31
+crw-rw-rw-   1 root     root     601  32 Dec 10 20:03 32
+crw-rw-rw-   1 root     root     601  33 Dec 10 20:03 33
+crw-rw-rw-   1 root     root     601  34 Dec 10 20:03 34
+crw-rw-rw-   1 root     root     601  35 Dec 10 20:03 35
+crw-rw-rw-   1 root     root     601  36 Dec 10 20:03 36
+crw-rw-rw-   1 root     root     601  37 Dec 10 20:03 37
+crw-rw-rw-   1 root     root     601  38 Dec 10 20:03 38
+crw-rw-rw-   1 root     root     601  39 Dec 10 20:03 39
+crw-rw-rw-   1 root     root     601   4 Dec 10 20:03 4
+crw-rw-rw-   1 root     root     601  40 Dec 10 20:03 40
+crw-rw-rw-   1 root     root     601  41 Dec 10 20:03 41
+crw-rw-rw-   1 root     root     601  42 Dec 10 20:03 42
+crw-rw-rw-   1 root     root     601  43 Dec 10 20:03 43
+crw-rw-rw-   1 root     root     601  44 Dec 10 20:03 44
+crw-rw-rw-   1 root     root     601  45 Dec 10 20:03 45
+crw-rw-rw-   1 root     root     601  46 Dec 10 20:03 46
+crw-rw-rw-   1 root     root     601  47 Dec 10 20:03 47
+crw-rw-rw-   1 root     root     601  48 Dec 10 20:03 48
+crw-rw-rw-   1 root     root     601  49 Dec 10 20:03 49
+crw-rw-rw-   1 root     root     601   5 Dec 10 20:03 5
+crw-rw-rw-   1 root     root     601  50 Dec 10 20:03 50
+crw-rw-rw-   1 root     root     601  51 Dec 10 20:03 51
+crw-rw-rw-   1 root     root     601  52 Dec 10 20:03 52
+crw-rw-rw-   1 root     root     601  53 Dec 10 20:03 53
+crw-rw-rw-   1 root     root     601  54 Dec 10 20:03 54
+crw-rw-rw-   1 root     root     601  55 Dec 10 20:03 55
+crw-rw-rw-   1 root     root     601  56 Dec 10 20:03 56
+crw-rw-rw-   1 root     root     601  57 Dec 10 20:03 57
+crw-rw-rw-   1 root     root     601  58 Dec 10 20:03 58
+crw-rw-rw-   1 root     root     601  59 Dec 10 20:03 59
+crw-rw-rw-   1 root     root     601   6 Dec 10 20:03 6
+crw-rw-rw-   1 root     root     601  60 Dec 10 20:03 60
+crw-rw-rw-   1 root     root     601  61 Dec 10 20:03 61
+crw-rw-rw-   1 root     root     601  62 Dec 10 20:03 62
+crw-rw-rw-   1 root     root     601  63 Dec 10 20:03 63
+crw-rw-rw-   1 root     root     601  64 Dec 10 20:03 64
+crw-rw-rw-   1 root     root     601  65 Dec 10 20:03 65
+crw-rw-rw-   1 root     root     601  66 Dec 10 20:03 66
+crw-rw-rw-   1 root     root     601  67 Dec 10 20:03 67
+crw-rw-rw-   1 root     root     601  68 Dec 10 20:03 68
+crw-rw-rw-   1 root     root     601  69 Dec 10 20:03 69
+crw-rw-rw-   1 root     root     601   7 Dec 10 20:03 7
+crw-rw-rw-   1 root     root     601  70 Dec 10 20:03 70
+crw-rw-rw-   1 root     root     601  71 Dec 10 20:03 71
+crw-rw-rw-   1 root     root     601  72 Dec 10 20:03 72
+crw-rw-rw-   1 root     root     601  73 Dec 10 20:03 73
+crw-rw-rw-   1 root     root     601  74 Dec 10 20:03 74
+crw-rw-rw-   1 root     root     601  75 Dec 10 20:03 75
+crw-rw-rw-   1 root     root     601  76 Dec 10 20:03 76
+crw-rw-rw-   1 root     root     601  77 Dec 10 20:03 77
+crw-rw-rw-   1 root     root     601  78 Dec 10 20:03 78
+crw-rw-rw-   1 root     root     601  79 Dec 10 20:03 79
+crw-rw-rw-   1 root     root     601   8 Dec 10 20:03 8
+crw-rw-rw-   1 root     root     601  80 Dec 10 20:03 80
+crw-rw-rw-   1 root     root     601  81 Dec 10 20:03 81
+crw-rw-rw-   1 root     root     601  82 Dec 10 20:03 82
+crw-rw-rw-   1 root     root     601  83 Dec 10 20:03 83
+crw-rw-rw-   1 root     root     601  84 Dec 10 20:03 84
+crw-rw-rw-   1 root     root     601  85 Dec 10 20:03 85
+crw-rw-rw-   1 root     root     601  86 Dec 10 20:03 86
+crw-rw-rw-   1 root     root     601  87 Dec 10 20:03 87
+crw-rw-rw-   1 root     root     601  88 Dec 10 20:03 88
+crw-rw-rw-   1 root     root     601  89 Dec 10 20:03 89
+crw-rw-rw-   1 root     root     601   9 Dec 10 20:03 9
+crw-rw-rw-   1 root     root     601  90 Dec 10 20:03 90
+crw-rw-rw-   1 root     root     601  91 Dec 10 20:03 91
+crw-rw-rw-   1 root     root     601  92 Dec 10 20:03 92
+crw-rw-rw-   1 root     root     601  93 Dec 10 20:03 93
+crw-rw-rw-   1 root     root     601  94 Dec 10 20:03 94
+crw-rw-rw-   1 root     root     601  95 Dec 10 20:03 95
+crw-rw-rw-   1 root     root     601  96 Dec 10 20:03 96
+crw-rw-rw-   1 root     root     601  97 Dec 10 20:03 97
+crw-rw-rw-   1 root     root     601  98 Dec 10 20:03 98
+crw-rw-rw-   1 root     root     601  99 Dec 10 20:03 99
+
+11) Block Special Device with Major and Minor Device Numbers :
+
+[cs30xlq@ieng9]:pa4:781$ ./myls -l /dev/zvol/dsk/local/cs30x
+brw-------   1 root     sys      323 534 Oct  2 03:35 /dev/zvol/dsk/local/cs30x

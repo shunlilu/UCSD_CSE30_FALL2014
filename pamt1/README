@@ -1,0 +1,161 @@
+/*
+ * Filename: README
+ * Author: Yuchun Li
+ * Userid: cs30xlq
+ * Date: Nov. 7, 2014
+ */
+
+Description
+----------------------
+    This program simply calculates the minimum and maximum of the very large array of numbers and the sum of the square of each elements in the array. The program runs the squentialSquaredSumMaxMin in two ways: single-threading and multi-threading. In addition, this program records the execution time for both methods and compares the relative performance of each.
+
+How to compile
+----------------------
+    To compile this program, go to the directory containing the Makefile, make sure there are all the source files and headers, and then simply type ‘make’ on the terminal.
+
+How to run
+----------------------
+    After the compilation has done, run the program as follows:
+	./squaredSumMinMax 123456789
+    
+    Note: the second argument is the size of the array. 
+       
+Normal output
+----------------------
+    For this program, the normal output goes to the stdout. An example of normal output is as follows.
+
+	[cs30xlq@acs-cseb240-07]:pamt1:86$ ./squaredSumMinMax 123456789
+	Initializing array (size = 123456789) with random values
+
+	.... Done
+
+	Sequential squared sum, min, max (be patient)
+	Squared Sum is: 672210683967
+	Min value is: -128
+	Max value is: 127
+	Completed in 0.241744 sec
+
+	Async-get parallel squared sum, min, max
+	Number of threads = 8
+	Squared Sum is: 672210683967
+	Min value is: -128
+	Max value is: 127
+	Completed in 0.070150 sec
+
+	Speed-up: 3.446101
+
+Abnormal output
+----------------------
+    For this program, the abnormal output goes to the stderr. The examples of abnormal output are as follows.
+
+	[cs30xlq@acs-cseb240-07]:pamt1:85$ ./squaredSumMinMax
+
+	Usage: ./squaredSumMinMax array_size
+	   array_size  (must be positive integer)
+
+Testing
+----------------------
+This program could be tested by simply checking if the ratio of the both methods is reasonable. To check if the implementation of squentialSquaredSumMinMax is correct, we can compare the output with the example output oneline. Although we are randomly generarting the elements of the array, we still get the same elements if we have the same array size. This because we are using psudo-random with the same seed, which will give us the same elements. Thus, we can run the program as follows:
+
+	[cs30xlq@acs-cseb240-07]:pamt1:89$ ./squaredSumMinMax 8675309
+	Initializing array (size = 8675309) with random values
+
+	. Done
+
+	Sequential squared sum, min, max (be patient)
+	Squared Sum is: 47210683345
+	Min value is: -128
+	Max value is: 127
+	Completed in 0.017289 sec
+
+	Async-get parallel squared sum, min, max
+	Number of threads = 8
+	Squared Sum is: 47210683345
+	Min value is: -128
+	Max value is: 127
+	Completed in 0.005711 sec
+
+	Speed-up: 3.027316
+
+
+	[cs30xlq@acs-cseb240-07]:pamt1:90$ ./squaredSumMinMax 987654321
+	Initializing array (size = 987654321) with random values
+
+	......................... Done
+
+	Sequential squared sum, min, max (be patient)
+	Squared Sum is: 5378110202388
+	Min value is: -128
+	Max value is: 127
+	Completed in 1.940990 sec
+
+	Async-get parallel squared sum, min, max
+	Number of threads = 8
+	Squared Sum is: 5378110202388
+	Min value is: -128
+	Max value is: 127
+	Completed in 0.544408 sec
+
+	Speed-up: 3.565322
+
+As we can see, the program returned the exact squared sum as the example does. Thus, the squentialSquaredSumMinMax is implemented correctly. Next, we can try the smaller values and abnormal out.
+
+	[cs30xlq@acs-cseb240-07]:pamt1:107$ ./squaredSumMinMax 500
+	Initializing array (size = 500) with random values
+
+	. Done
+
+	Sequential squared sum, min, max (be patient)
+	Squared Sum is: 2709514
+	Min value is: -128
+	Max value is: 127
+	Completed in 0.000004 sec
+
+	Async-get parallel squared sum, min, max
+	Number of threads = 8
+	Squared Sum is: 2709514
+	Min value is: -128
+	Max value is: 127
+	Completed in 0.001525 sec
+
+	Speed-up: 0.002623
+
+
+
+ 	[cs30xlq@acs-cseb240-07]:pamt1:108$ ./squaredSumMinMax    
+
+	Usage: ./squaredSumMinMax array_size
+	   array_size  (must be positive integer)
+
+At this point, we can see that the program works correctly.
+
+Questions
+----------------------
+
+1. Try running your program with an array size of 500000000 (that's 500 million). You should notice a fairly substantial speedup of somewhere between 3.5 and 4. Now try running it with an array size of 500 -- the speedup is tiny, less than .01, meaning the sequential computation was much faster than parallel. Why is the sequential computation so much faster for small array sizes?
+
+    This is because there are overheads for the multi-threading. When we do the parallel programming, we actually call the squentialSquaredSumMinMax for serval times, and this will raise context switches between the current thread and the new thread. For this reason, if the array size is small, it does not worth doing parallel programming.
+
+2. So parallel processing is better for very large arrays, and sequential is better for small arrays. Try out some more values for the array size. At approximately what array size do the parallel and sequential calculations take the same time -- that is, at what size is the speedup approximately 1? (This doesn't have to be exact, just a ballpark number).
+	At array size 999999, the speedup is about 1 as follows.
+
+	[cs30xlq@acs-cseb240-07]:pamt1:114$ ./squaredSumMinMax 999999
+	Initializing array (size = 999999) with random values
+
+	. Done
+
+	Sequential squared sum, min, max (be patient)
+	Squared Sum is: 5443932661
+	Min value is: -128
+	Max value is: 127
+	Completed in 0.001755 sec
+
+	Async-get parallel squared sum, min, max
+	Number of threads = 8
+	Squared Sum is: 5443932661
+	Min value is: -128
+	Max value is: 127
+	Completed in 0.001714 sec
+
+	Speed-up: 1.023921
+

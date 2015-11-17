@@ -1,0 +1,255 @@
+/*
+ * Filename: README
+ * Author: Yuchun Li
+ * Userid: cs30xlq
+ * Date: Oct. 20, 2014
+ */
+
+Description
+----------------------
+    This program displays a flexible-sized pattern on the command line window. It takes four long integers as inputs to design the size of the pattern, the character to compose X, the character for the space around X and the character for the border.
+
+How to compile
+----------------------
+    To compile this program, go to the directory containing the Makefile, make sure there are all the source files and headers, and then simply type ‘make’ on the terminal.
+
+How to run
+----------------------
+    To the program after the compilation has done, type the following command with four integer parameters (size, xChar, fillerChar, borderChar). 
+	
+	$ ./pa1 16 32 45 35
+       
+Normal output
+----------------------
+    For this program, the normal output goes to the stdout. An example of normal output is as follows.
+
+[cs30xlq@ieng9]:pa1:553$ ./pa1 10 32 33 34
+""""""""""""""
+""""""""""""""
+"" !!!!!!!! ""
+""! !!!!!! !""
+""!! !!!! !!""
+""!!! !! !!!""
+""!!!!  !!!!""
+""!!!!  !!!!""
+""!!! !! !!!""
+""!! !!!! !!""
+""! !!!!!! !""
+"" !!!!!!!! ""
+""""""""""""""
+""""""""""""""
+
+
+Abnormal output
+----------------------
+    For this program, the abnormal output goes to the stderr. The examples of abnormal output are as follows.
+
+[cs30xlq@ieng9]:pa1:509$ ./pa1 10a 29 35 29
+
+        "10a" is not an integer
+
+        X_char(29) must be an ASCII code in the range [32 - 126]
+
+        border_char(29) must be an ASCII code in the range [32 - 126]
+
+        X_char(29) and border_char(29) must be different
+
+Testing
+----------------------
+This program could be tested by comparing the output with the output from the sample stripped executable that was provided at ~/../public/pa1test. Since there are thousands of input combinations, thorough testing is very tough. For this reason, testing only covers the functional check. 
+
+1) Insufficient number of arguments
+
+[cs30xlq@ieng9]:pa1:511$ ./pa1  
+
+Usage: ./pa1 X_size X_char filler_char border_char
+    X_size      (must be within the range of [4 - 5000])
+                (must be even)
+    X_char      (must be an ASCII value within the range [32 - 126])
+    filler_char (must be an ASCII value within the range [32 - 126])
+                (must be different than X_char)
+    border_char (must be an ASCII value within the range [32 - 126])
+                (must be different than X_char)
+
+[cs30xlq@ieng9]:pa1:512$ ./pa1 8 32 45
+
+Usage: ./pa1 X_size X_char filler_char border_char
+    X_size      (must be within the range of [4 - 5000])
+                (must be even)
+    X_char      (must be an ASCII value within the range [32 - 126])
+    filler_char (must be an ASCII value within the range [32 - 126])
+                (must be different than X_char)
+    border_char (must be an ASCII value within the range [32 - 126])
+                (must be different than X_char)
+
+2) Unexpected X_size
+
+[cs30xlq@ieng9]:pa1:514$ ./pa1 7 32 45 35
+
+        X_size(7) must be even
+
+[cs30xlq@ieng9]:pa1:516$ ./pa1 5678 32 45 35
+
+        X_size(5678) must be within the range of [4 - 5000]
+
+3) Unexpected X_char
+
+[cs30xlq@ieng9]:pa1:518$ ./pa1 8 30 45 45   
+
+        X_char(30) must be an ASCII code in the range [32 - 126]
+
+4) Unexpected filler_char
+
+[cs30xlq@ieng9]:pa1:519$ ./pa1 8 32 4 45
+
+        filler_char(4) must be an ASCII code in the range [32 - 126]
+
+5) Unexpected border_char
+
+[cs30xlq@ieng9]:pa1:520$ ./pa1 8 32 35 8 
+
+        border_char(8) must be an ASCII code in the range [32 - 126]
+
+6) Unsuccessful strToLong conversion
+
+[cs30xlq@ieng9]:pa1:521$ ./pa1 88888888888888888 32 35 45
+
+        Converting "88888888888888888" base "10": Result too large
+
+[cs30xlq@ieng9]:pa1:513$ ./pa1 8a 32 45 35
+
+        "8a" is not an integer
+
+7) Special cases
+
+[cs30xlq@ieng9]:pa1:522$ ./pa1 -1 -1 -1 -1
+
+        X_size(-1) must be within the range of [4 - 5000]
+
+        X_size(-1) must be even
+
+        X_char(-1) must be an ASCII code in the range [32 - 126]
+
+        filler_char(-1) must be an ASCII code in the range [32 - 126]
+
+        X_char(-1) and filler_char(-1) must be different
+
+        border_char(-1) must be an ASCII code in the range [32 - 126]
+
+        X_char(-1) and border_char(-1) must be different
+
+[cs30xlq@ieng9]:pa1:523$ ./pa1 0 0 0 0    
+
+        X_size(0) must be within the range of [4 - 5000]
+
+        X_char(0) must be an ASCII code in the range [32 - 126]
+
+        filler_char(0) must be an ASCII code in the range [32 - 126]
+
+        X_char(0) and filler_char(0) must be different
+
+        border_char(0) must be an ASCII code in the range [32 - 126]
+
+        X_char(0) and border_char(0) must be different
+
+8) Different X_size levels
+
+[cs30xlq@ieng9]:pa1:527$ ./pa1 6 89 45 49
+11111111
+1Y----Y1
+1-Y--Y-1
+1--YY--1
+1--YY--1
+1-Y--Y-1
+1Y----Y1
+11111111
+
+[cs30xlq@ieng9]:pa1:528$ ./pa1 26 89 45 49
+111111111111111111111111111111
+111111111111111111111111111111
+11Y------------------------Y11
+11-Y----------------------Y-11
+11--Y--------------------Y--11
+11---Y------------------Y---11
+11----Y----------------Y----11
+11-----Y--------------Y-----11
+11------Y------------Y------11
+11-------Y----------Y-------11
+11--------Y--------Y--------11
+11---------Y------Y---------11
+11----------Y----Y----------11
+11-----------Y--Y-----------11
+11------------YY------------11
+11------------YY------------11
+11-----------Y--Y-----------11
+11----------Y----Y----------11
+11---------Y------Y---------11
+11--------Y--------Y--------11
+11-------Y----------Y-------11
+11------Y------------Y------11
+11-----Y--------------Y-----11
+11----Y----------------Y----11
+11---Y------------------Y---11
+11--Y--------------------Y--11
+11-Y----------------------Y-11
+11Y------------------------Y11
+111111111111111111111111111111
+111111111111111111111111111111
+
+
+Questions
+----------------------
+
+1) How do you print the value of the string that is the 1st arg in strtol?
+     	Type ‘p str’
+
+	(gdb) p str
+	$1 = 0xffbff19a "9InchNails"
+
+2) How do you print the decimal value of the base that is the 3rd arg in strtol?
+     	Type ‘p base’
+
+	(gdb) p base  
+	$3 = 10
+
+3) How do you print the hex value of &endptr that is the 2nd arg in strtol?
+     	Type ‘p/x endptr’
+
+	(gdb) p/x &endptr
+	$10 = 0xffbfef38
+
+4) How do you print the value returned by strtol?
+      a) Type ‘p num’
+
+	(gdb) p num
+	$7 = 9
+
+      b) Type ‘p $o0’
+ 
+	(gdb) p $o0
+	$24 = 9
+
+5) How do you print the character endptr is pointing to?
+     	Type ‘p *endptr’x
+
+6) How do you print the entire nul-terminated string endptr is pointing to?
+     	Type ‘p endptr’
+
+	(gdb) p endptr   
+	$11 = 0xffbff19b "InchNails"
+
+7) How do you print the decimal value of the global variable errno at this point?
+     	Type ‘p errno’
+
+	(gdb) p errno
+	$12 = 0
+
+8) What is the Git command to show the current state of your working tree?
+	git status
+
+9) What is the Git command to discard any changes made to a file since its last commit?
+	git checkout —- <file>
+	
+10) What is the Git command to display the differences between the local version of a file and the version last committed? 
+	git log -p -1
+

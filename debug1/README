@@ -1,0 +1,54 @@
+/*
+ * Filename: README
+ * Author: Yuchun Li
+ * Userid: cs30xlq
+ * Date: Nov. 9, 2014
+ */
+
+Compilation Errors
+--------------------------------------------------------------
+1. 
+Error: ”reverse.s", line 29: error: location counter not on word boundary
+Fix: “reverse.s”, line 12, added “ .section “.text” ”
+
+2. 
+Error: fatal: relocation error: R_SPARC_13: file reverse.o: symbol .data (section): value 0x21144 does not fit
+Fix: “reverse.s”, line 72, changed "mov" to "set"
+
+
+Runtime Errors
+--------------------------------------------------------------
+1. Error: Bus Error (core dumped)
+   Fix: "findEnd.s", line 29,line 40, changed "ld" to "ldub"
+
+2. Error: Segmentation Fault (core dumped)
+   Fix: "findEnd.s", line 24, Added "save %sp, -96, %sp"
+
+3. Error: Segmentation Fault (core dumped)
+   Fix: "reverse.s", line 30, Added "-" before left parenthesis
+
+4. Error: Segmentation Fault (core dumped)
+   Fix: "reverse.s", line 58, changed "add" to "sub"
+
+
+Functionality errors
+--------------------------------------------------------------
+1. Error: No "PALINDROME!" printed for palindrome cases
+	[cs30xlq@ieng9]:debug1:655$ ./reverseString -11-
+	Before: -11-
+	After: -11-
+
+   Fix: "swapChars.s", line 45, added "nop" below "ba notSame"
+
+2. Error: Only take the first argument in the command line
+	[cs30xlq@ieng9]:debug1:663$ ./reverseString -11- abba
+	Before: -11-
+	PALINDROME!
+	After: -11-
+
+	Before: -11-
+	PALINDROME!
+	After: -11-
+
+   Fix: "main.c", line 42, changed "1" to "i" insided the bracket
+
